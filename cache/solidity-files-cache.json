@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/vadimantiy/Developer/nil-pump/contracts/BondingCurveBasic.sol": {
-      "lastModificationDate": 1725538665139,
-      "contentHash": "d4992890c621cbdf93de3eb063ac0bb1",
+      "lastModificationDate": 1725546836957,
+      "contentHash": "2b8b657734095da897037d2157a5e6a6",
       "sourceName": "contracts/BondingCurveBasic.sol",
       "solcConfig": {
         "version": "0.8.24",

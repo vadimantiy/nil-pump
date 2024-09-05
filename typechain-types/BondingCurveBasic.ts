@@ -8,6 +8,7 @@ import type {
   FunctionFragment,
   Result,
   Interface,
+  EventFragment,
   AddressLike,
   ContractRunner,
   ContractMethod,
@@ -17,6 +18,7 @@ import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
   TypedEventLog,
+  TypedLogDescription,
   TypedListener,
   TypedContractMethod,
 } from "./common";
@@ -40,6 +42,13 @@ export interface BondingCurveBasicInterface extends Interface {
       | "sendCurrency"
       | "setCurrencyName"
   ): FunctionFragment;
+
+  getEvent(
+    nameOrSignatureOrTopic:
+      | "DidSendAsyncCall"
+      | "SuccessfulyMinted"
+      | "ToPurchaseAmount"
+  ): EventFragment;
 
   encodeFunctionData(functionFragment: "buy", values: [AddressLike]): string;
   encodeFunctionData(
@@ -147,6 +156,60 @@ export interface BondingCurveBasicInterface extends Interface {
     functionFragment: "setCurrencyName",
     data: BytesLike
   ): Result;
+}
+
+export namespace DidSendAsyncCallEvent {
+  export type InputTuple = [
+    sender: AddressLike,
+    deposit: BigNumberish,
+    amount: BigNumberish
+  ];
+  export type OutputTuple = [sender: string, deposit: bigint, amount: bigint];
+  export interface OutputObject {
+    sender: string;
+    deposit: bigint;
+    amount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace SuccessfulyMintedEvent {
+  export type InputTuple = [
+    sender: AddressLike,
+    deposit: BigNumberish,
+    amount: BigNumberish
+  ];
+  export type OutputTuple = [sender: string, deposit: bigint, amount: bigint];
+  export interface OutputObject {
+    sender: string;
+    deposit: bigint;
+    amount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace ToPurchaseAmountEvent {
+  export type InputTuple = [
+    sender: AddressLike,
+    deposit: BigNumberish,
+    amount: BigNumberish
+  ];
+  export type OutputTuple = [sender: string, deposit: bigint, amount: bigint];
+  export interface OutputObject {
+    sender: string;
+    deposit: bigint;
+    amount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export interface BondingCurveBasic extends BaseContract {
@@ -336,5 +399,60 @@ export interface BondingCurveBasic extends BaseContract {
     nameOrSignature: "setCurrencyName"
   ): TypedContractMethod<[name: string], [void], "nonpayable">;
 
-  filters: {};
+  getEvent(
+    key: "DidSendAsyncCall"
+  ): TypedContractEvent<
+    DidSendAsyncCallEvent.InputTuple,
+    DidSendAsyncCallEvent.OutputTuple,
+    DidSendAsyncCallEvent.OutputObject
+  >;
+  getEvent(
+    key: "SuccessfulyMinted"
+  ): TypedContractEvent<
+    SuccessfulyMintedEvent.InputTuple,
+    SuccessfulyMintedEvent.OutputTuple,
+    SuccessfulyMintedEvent.OutputObject
+  >;
+  getEvent(
+    key: "ToPurchaseAmount"
+  ): TypedContractEvent<
+    ToPurchaseAmountEvent.InputTuple,
+    ToPurchaseAmountEvent.OutputTuple,
+    ToPurchaseAmountEvent.OutputObject
+  >;
+
+  filters: {
+    "DidSendAsyncCall(address,uint256,uint256)": TypedContractEvent<
+      DidSendAsyncCallEvent.InputTuple,
+      DidSendAsyncCallEvent.OutputTuple,
+      DidSendAsyncCallEvent.OutputObject
+    >;
+    DidSendAsyncCall: TypedContractEvent<
+      DidSendAsyncCallEvent.InputTuple,
+      DidSendAsyncCallEvent.OutputTuple,
+      DidSendAsyncCallEvent.OutputObject
+    >;
+
+    "SuccessfulyMinted(address,uint256,uint256)": TypedContractEvent<
+      SuccessfulyMintedEvent.InputTuple,
+      SuccessfulyMintedEvent.OutputTuple,
+      SuccessfulyMintedEvent.OutputObject
+    >;
+    SuccessfulyMinted: TypedContractEvent<
+      SuccessfulyMintedEvent.InputTuple,
+      SuccessfulyMintedEvent.OutputTuple,
+      SuccessfulyMintedEvent.OutputObject
+    >;
+
+    "ToPurchaseAmount(address,uint256,uint256)": TypedContractEvent<
+      ToPurchaseAmountEvent.InputTuple,
+      ToPurchaseAmountEvent.OutputTuple,
+      ToPurchaseAmountEvent.OutputObject
+    >;
+    ToPurchaseAmount: TypedContractEvent<
+      ToPurchaseAmountEvent.InputTuple,
+      ToPurchaseAmountEvent.OutputTuple,
+      ToPurchaseAmountEvent.OutputObject
+    >;
+  };
 }

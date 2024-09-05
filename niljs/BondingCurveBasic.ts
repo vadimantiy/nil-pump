@@ -13,6 +13,7 @@ require("dotenv").config();
 import { encodeFunctionData, hexToBigInt } from "viem";
 
 const bondingCurveBasicContract = require("../public/BondingCurveBasic.json");
+const deployedAddresses = require("../ignition/deployments/chain-0/deployed_addresses.json")
 
 const client = new PublicClient({
   transport: new HttpTransport({
@@ -39,9 +40,11 @@ const wallet = new WalletV1({
 
 const walletAddress = wallet.getAddressHex();
 console.log("Wallet Address:", walletAddress);
+const contractAddress = deployedAddresses["BondingCurveModule#BondingCurveBasic"];
+console.log("Contract address = ", contractAddress);
 
 const sendingPurchase = await wallet.sendMessage({
-  to: "0x0001A0412DBAA6aFb0c7C76FA7bF435f70f96152",
+  to: contractAddress,
   value: 77777n,
   data: encodeFunctionData({
     abi: bondingCurveBasicContract.abi,

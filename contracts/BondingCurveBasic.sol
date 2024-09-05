@@ -12,6 +12,12 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
     uint256 poolBalance;
     uint256 cap;
     uint256 constant public decimals = 10**18;
+    
+    event ToPurchaseAmount(address indexed sender, uint256 deposit, uint256 amount);
+    event SuccessfulyMinted(address indexed sender, uint256 deposit, uint256 amount);
+    event DidSendAsyncCall(address indexed sender, uint256 deposit, uint256 amount);
+
+    receive() external payable {}
 
     constructor(string memory _tokenName, uint _cap) {
         cap = _cap;
@@ -25,11 +31,16 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
 
         uint256 mintAmount = calculateCurvedMintReturn(deposit);
 
+        emit ToPurchaseAmount(msg.sender, deposit, mintAmount);
+
         if (getCurrencyTotalSupply() + mintAmount > cap) {
             // TODO: handle this case, buy proportionally
         }
 
         mintCurrencyInternal(mintAmount);
+
+        emit SuccessfulyMinted(msg.sender, deposit, mintAmount);
+
         poolBalance += deposit;
 
         Nil.Token[] memory purchasedTokens = new Nil.Token[](1);
@@ -45,10 +56,12 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
             100000,  // feeCredit
             0,  // forwardKind
             false,  // deploy
-            0,  // value
+            12345,  // value
             purchasedTokens, // tokens
             "" // callData
         );
+
+        emit DidSendAsyncCall(msg.sender, deposit, mintAmount);
     }
 
     function sell(uint256 _amount, address _destination) external payable {
