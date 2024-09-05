@@ -40,9 +40,6 @@ const wallet = new WalletV1({
 const walletAddress = wallet.getAddressHex();
 console.log("Wallet Address:", walletAddress);
 
-console.log("BondingCurveBasic.abi =", bondingCurveBasicContract.abi);
-
-// call voting contract to vote
 const sendingPurchase = await wallet.sendMessage({
   to: "0x0001A0412DBAA6aFb0c7C76FA7bF435f70f96152",
   value: 77777n,
@@ -51,7 +48,7 @@ const sendingPurchase = await wallet.sendMessage({
     functionName: "buy",
     args: [walletAddress],
   }),
-  gas: 5_000_000n,
+  feeCredit: 5_000_000n,
 });
 
 waitTillCompleted(client, 1, sendingPurchase);
