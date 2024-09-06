@@ -9,34 +9,33 @@ import "./nil/NilCurrencyBase.sol";
 contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for handle different type of curves
     using Nil for address;
 
-    uint256 poolBalance;
-    uint256 cap;
-    uint256 constant public decimals = 10**4;
+    uint256 public poolBalance;
+    uint256 public immutable maxTotalSupply;
+    uint256 public constant curveExponent = 2;
+    uint256 public constant initialPricePerToken = 1e3;
     
     event ToPurchaseAmount(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
     event SuccessfulyMinted(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
     event DidSendAsyncCall(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
 
-    constructor(string memory _tokenName, uint _cap) {
-        cap = _cap;
+    constructor(string memory _tokenName, uint _maxTotalSupply) {
+        maxTotalSupply = _maxTotalSupply;
         setCurrencyNameInternal(_tokenName);
     }
 
     function buy(address _destination) external payable {
         uint256 deposit = msg.value; 
         require(deposit > 0, "Empty deposit");
-        require(getCurrencyTotalSupply() < cap, "All tokenes are already purchased");  // TODO: use modifiers?
+        require(getCurrencyTotalSupply() < maxTotalSupply, "All tokenes are already purchased");  // TODO: use modifiers?
 
-        uint256 mintAmount = calculateCurvedMintReturn(deposit);
-
+        uint256 mintAmount = calculateBuyPrice(deposit);
         emit ToPurchaseAmount(msg.sender, deposit, mintAmount);
 
-        if (getCurrencyTotalSupply() + mintAmount > cap) {
+        if (getCurrencyTotalSupply() + mintAmount > maxTotalSupply) {
             // TODO: handle this case, buy proportionally
         }
 
         mintCurrencyInternal(mintAmount);
-
         emit SuccessfulyMinted(msg.sender, deposit, mintAmount);
 
         poolBalance += deposit;
@@ -62,7 +61,7 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
 
     function sell(uint256 _amount, address _destination) external payable {
         require(getCurrencyBalanceOf(msg.sender) >= _amount, "Insufficient balance");
-        uint256 reimbursement = calculateCurvedBurnReturn(_amount);
+        uint256 reimbursement = calculateSellPrice(_amount);
 
         burnCurrencyInternal(reimbursement);
         poolBalance -= reimbursement;
@@ -79,44 +78,25 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
         );
     }
 
-    function calculateCurvedMintReturn(uint256 _amount)
-        public view returns (uint256 mintAmount)
-    {
-        return calculatePurchaseReturn(getCurrencyTotalSupply(), poolBalance, _amount);
+    // TODO: tune formulas
+    // Exponential curve for buying tokens: P(x) = k * x^e
+    // Where x is totalSupply, e is the curve exponent, and k is a multiplier for scaling the curve.
+    function calculateBuyPrice(uint256 ethAmount) public view returns (uint256) {
+        uint256 tokenSupply = getCurrencyTotalSupply();
+
+        if (tokenSupply == 0) {
+            // Price for the first tokens
+            return ethAmount / initialPricePerToken;
+        }
+        // P(x) = k * x^e => tokens = ETH / (k * (currentSupply ^ e))
+        return ethAmount / (tokenSupply ** curveExponent);
     }
 
-    function calculateCurvedBurnReturn(uint256 _amount)
-        public view returns (uint256 mintAmount)
-    {
-        return calculateSaleReturn(getCurrencyTotalSupply(), poolBalance,  _amount);
-    }
-
-    function calculatePurchaseReturn(
-        uint256 _totalSupply,
-        uint256 _poolBalance,
-        uint256 _amount
-    )   public
-        pure
-        returns (uint256)
-    {
-        // TODO: get correct formula
-        uint256 newTotal = _totalSupply + _amount;
-        uint256 newPrice = newTotal * newTotal / decimals * newTotal / decimals;
-        return newPrice / 3 - _poolBalance;
-    }
-
-    function calculateSaleReturn(
-        uint256 _totalSupply,
-        uint256 _poolBalance,
-        uint256 _amount
-    )   public
-        pure
-        returns (uint256)
-    {
-        // TODO: get correct formula
-        uint256 newTotal = _totalSupply - _amount;
-        uint256 newPrice = newTotal * newTotal / decimals * newTotal / decimals;
-        return _poolBalance - newPrice / decimals;
+    // Exponential curve for selling tokens: Similar logic for selling based on the supply and reserve.
+    function calculateSellPrice(uint256 tokenAmount) public view returns (uint256) {
+        uint256 tokenSupply = getCurrencyTotalSupply();
+        // P(x) = k * x^e => ETH = tokens * (k * (currentSupply ^ e))
+        return (tokenAmount * poolBalance) / (tokenSupply ** curveExponent);
     }
 
     function burnCurrencyInternal(uint256 amount) internal {

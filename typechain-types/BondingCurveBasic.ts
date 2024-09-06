@@ -27,17 +27,18 @@ export interface BondingCurveBasicInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "buy"
-      | "calculateCurvedBurnReturn"
-      | "calculateCurvedMintReturn"
-      | "calculatePurchaseReturn"
-      | "calculateSaleReturn"
-      | "decimals"
+      | "calculateBuyPrice"
+      | "calculateSellPrice"
+      | "curveExponent"
       | "getCurrencyBalanceOf"
       | "getCurrencyId"
       | "getCurrencyName"
       | "getCurrencyTotalSupply"
       | "getOwnCurrencyBalance"
+      | "initialPricePerToken"
+      | "maxTotalSupply"
       | "mintCurrency"
+      | "poolBalance"
       | "sell"
       | "sendCurrency"
       | "setCurrencyName"
@@ -52,22 +53,17 @@ export interface BondingCurveBasicInterface extends Interface {
 
   encodeFunctionData(functionFragment: "buy", values: [AddressLike]): string;
   encodeFunctionData(
-    functionFragment: "calculateCurvedBurnReturn",
+    functionFragment: "calculateBuyPrice",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "calculateCurvedMintReturn",
+    functionFragment: "calculateSellPrice",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "calculatePurchaseReturn",
-    values: [BigNumberish, BigNumberish, BigNumberish]
+    functionFragment: "curveExponent",
+    values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "calculateSaleReturn",
-    values: [BigNumberish, BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getCurrencyBalanceOf",
     values: [AddressLike]
@@ -89,8 +85,20 @@ export interface BondingCurveBasicInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "initialPricePerToken",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "maxTotalSupply",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "mintCurrency",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "poolBalance",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "sell",
@@ -107,22 +115,17 @@ export interface BondingCurveBasicInterface extends Interface {
 
   decodeFunctionResult(functionFragment: "buy", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "calculateCurvedBurnReturn",
+    functionFragment: "calculateBuyPrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "calculateCurvedMintReturn",
+    functionFragment: "calculateSellPrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "calculatePurchaseReturn",
+    functionFragment: "curveExponent",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "calculateSaleReturn",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getCurrencyBalanceOf",
     data: BytesLike
@@ -144,7 +147,19 @@ export interface BondingCurveBasicInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "initialPricePerToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "maxTotalSupply",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "mintCurrency",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "poolBalance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "sell", data: BytesLike): Result;
@@ -257,39 +272,19 @@ export interface BondingCurveBasic extends BaseContract {
 
   buy: TypedContractMethod<[_destination: AddressLike], [void], "payable">;
 
-  calculateCurvedBurnReturn: TypedContractMethod<
-    [_amount: BigNumberish],
+  calculateBuyPrice: TypedContractMethod<
+    [ethAmount: BigNumberish],
     [bigint],
     "view"
   >;
 
-  calculateCurvedMintReturn: TypedContractMethod<
-    [_amount: BigNumberish],
+  calculateSellPrice: TypedContractMethod<
+    [tokenAmount: BigNumberish],
     [bigint],
     "view"
   >;
 
-  calculatePurchaseReturn: TypedContractMethod<
-    [
-      _totalSupply: BigNumberish,
-      _poolBalance: BigNumberish,
-      _amount: BigNumberish
-    ],
-    [bigint],
-    "view"
-  >;
-
-  calculateSaleReturn: TypedContractMethod<
-    [
-      _totalSupply: BigNumberish,
-      _poolBalance: BigNumberish,
-      _amount: BigNumberish
-    ],
-    [bigint],
-    "view"
-  >;
-
-  decimals: TypedContractMethod<[], [bigint], "view">;
+  curveExponent: TypedContractMethod<[], [bigint], "view">;
 
   getCurrencyBalanceOf: TypedContractMethod<
     [account: AddressLike],
@@ -305,11 +300,17 @@ export interface BondingCurveBasic extends BaseContract {
 
   getOwnCurrencyBalance: TypedContractMethod<[], [bigint], "view">;
 
+  initialPricePerToken: TypedContractMethod<[], [bigint], "view">;
+
+  maxTotalSupply: TypedContractMethod<[], [bigint], "view">;
+
   mintCurrency: TypedContractMethod<
     [amount: BigNumberish],
     [void],
     "nonpayable"
   >;
+
+  poolBalance: TypedContractMethod<[], [bigint], "view">;
 
   sell: TypedContractMethod<
     [_amount: BigNumberish, _destination: AddressLike],
@@ -333,35 +334,13 @@ export interface BondingCurveBasic extends BaseContract {
     nameOrSignature: "buy"
   ): TypedContractMethod<[_destination: AddressLike], [void], "payable">;
   getFunction(
-    nameOrSignature: "calculateCurvedBurnReturn"
-  ): TypedContractMethod<[_amount: BigNumberish], [bigint], "view">;
+    nameOrSignature: "calculateBuyPrice"
+  ): TypedContractMethod<[ethAmount: BigNumberish], [bigint], "view">;
   getFunction(
-    nameOrSignature: "calculateCurvedMintReturn"
-  ): TypedContractMethod<[_amount: BigNumberish], [bigint], "view">;
+    nameOrSignature: "calculateSellPrice"
+  ): TypedContractMethod<[tokenAmount: BigNumberish], [bigint], "view">;
   getFunction(
-    nameOrSignature: "calculatePurchaseReturn"
-  ): TypedContractMethod<
-    [
-      _totalSupply: BigNumberish,
-      _poolBalance: BigNumberish,
-      _amount: BigNumberish
-    ],
-    [bigint],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "calculateSaleReturn"
-  ): TypedContractMethod<
-    [
-      _totalSupply: BigNumberish,
-      _poolBalance: BigNumberish,
-      _amount: BigNumberish
-    ],
-    [bigint],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "decimals"
+    nameOrSignature: "curveExponent"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "getCurrencyBalanceOf"
@@ -379,8 +358,17 @@ export interface BondingCurveBasic extends BaseContract {
     nameOrSignature: "getOwnCurrencyBalance"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
+    nameOrSignature: "initialPricePerToken"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "maxTotalSupply"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "mintCurrency"
   ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "poolBalance"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "sell"
   ): TypedContractMethod<
