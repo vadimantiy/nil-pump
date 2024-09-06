@@ -11,7 +11,7 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
 
     uint256 poolBalance;
     uint256 cap;
-    uint256 constant public decimals = 10**18;
+    uint256 constant public decimals = 10**4;
     
     event ToPurchaseAmount(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
     event SuccessfulyMinted(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
@@ -101,7 +101,7 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
         pure
         returns (uint256)
     {
-        
+        // TODO: get correct formula
         uint256 newTotal = _totalSupply + _amount;
         uint256 newPrice = newTotal * newTotal / decimals * newTotal / decimals;
         return newPrice / 3 - _poolBalance;
@@ -115,6 +115,7 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
         pure
         returns (uint256)
     {
+        // TODO: get correct formula
         uint256 newTotal = _totalSupply - _amount;
         uint256 newPrice = newTotal * newTotal / decimals * newTotal / decimals;
         return _poolBalance - newPrice / decimals;
