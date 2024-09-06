@@ -17,8 +17,6 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
     event SuccessfulyMinted(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
     event DidSendAsyncCall(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
 
-    receive() external payable {}
-
     constructor(string memory _tokenName, uint _cap) {
         cap = _cap;
         setCurrencyNameInternal(_tokenName);
@@ -56,7 +54,7 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
             100000,  // feeCredit
             0,  // forwardKind
             false,  // deploy
-            12345,  // value
+            0,  // value
             purchasedTokens, // tokens
             "" // callData
         );
