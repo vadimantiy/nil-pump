@@ -14,6 +14,7 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
     uint256 public constant curveExponent = 2;
     uint256 public constant initialPricePerToken = 1e3;
     
+    // For debugging
     event ToPurchaseAmount(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
     event SuccessfulyMinted(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
     event DidSendAsyncCall(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
