@@ -13,9 +13,9 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
     uint256 cap;
     uint256 constant public decimals = 10**18;
     
-    event ToPurchaseAmount(address indexed sender, uint256 deposit, uint256 amount);
-    event SuccessfulyMinted(address indexed sender, uint256 deposit, uint256 amount);
-    event DidSendAsyncCall(address indexed sender, uint256 deposit, uint256 amount);
+    event ToPurchaseAmount(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
+    event SuccessfulyMinted(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
+    event DidSendAsyncCall(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
 
     receive() external payable {}
 
@@ -60,8 +60,6 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
             purchasedTokens, // tokens
             "" // callData
         );
-
-        emit DidSendAsyncCall(msg.sender, deposit, mintAmount);
     }
 
     function sell(uint256 _amount, address _destination) external payable {
