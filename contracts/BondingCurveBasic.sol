@@ -52,7 +52,7 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
             address(this),  // refundTo
             address(msg.sender),  // bounceTo
             100000,  // feeCredit
-            0,  // forwardKind
+            Nil.FORWARD_REMAINING,  // forwardKind
             false,  // deploy
             0,  // value
             purchasedTokens, // tokens
@@ -79,7 +79,7 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
             address(msg.sender),  // refundTo
             address(msg.sender),  // bounceTo
             100000,  // feeCredit
-            0,  // forwardKind
+            Nil.FORWARD_REMAINING,  // forwardKind
             false,  // deploy
             reimbursement,  // value
             ""  // callData
