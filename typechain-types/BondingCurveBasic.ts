@@ -26,6 +26,7 @@ import type {
 export interface BondingCurveBasicInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "MAX_POOL_BALANCE"
       | "buy"
       | "calculateBuyPrice"
       | "calculateSellPrice"
@@ -34,8 +35,10 @@ export interface BondingCurveBasicInterface extends Interface {
       | "getCurrencyId"
       | "getCurrencyName"
       | "getCurrencyTotalSupply"
+      | "getIsClosed"
       | "getOwnCurrencyBalance"
       | "initialPricePerToken"
+      | "isClosed"
       | "maxTotalSupply"
       | "mintCurrency"
       | "poolBalance"
@@ -51,6 +54,10 @@ export interface BondingCurveBasicInterface extends Interface {
       | "ToPurchaseAmount"
   ): EventFragment;
 
+  encodeFunctionData(
+    functionFragment: "MAX_POOL_BALANCE",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "buy", values: [AddressLike]): string;
   encodeFunctionData(
     functionFragment: "calculateBuyPrice",
@@ -81,6 +88,10 @@ export interface BondingCurveBasicInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getIsClosed",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getOwnCurrencyBalance",
     values?: undefined
   ): string;
@@ -88,6 +99,7 @@ export interface BondingCurveBasicInterface extends Interface {
     functionFragment: "initialPricePerToken",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "isClosed", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "maxTotalSupply",
     values?: undefined
@@ -113,6 +125,10 @@ export interface BondingCurveBasicInterface extends Interface {
     values: [string]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "MAX_POOL_BALANCE",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "buy", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "calculateBuyPrice",
@@ -143,6 +159,10 @@ export interface BondingCurveBasicInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getIsClosed",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getOwnCurrencyBalance",
     data: BytesLike
   ): Result;
@@ -150,6 +170,7 @@ export interface BondingCurveBasicInterface extends Interface {
     functionFragment: "initialPricePerToken",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "isClosed", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "maxTotalSupply",
     data: BytesLike
@@ -270,6 +291,8 @@ export interface BondingCurveBasic extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  MAX_POOL_BALANCE: TypedContractMethod<[], [bigint], "view">;
+
   buy: TypedContractMethod<[_destination: AddressLike], [void], "payable">;
 
   calculateBuyPrice: TypedContractMethod<
@@ -298,9 +321,13 @@ export interface BondingCurveBasic extends BaseContract {
 
   getCurrencyTotalSupply: TypedContractMethod<[], [bigint], "view">;
 
+  getIsClosed: TypedContractMethod<[], [boolean], "view">;
+
   getOwnCurrencyBalance: TypedContractMethod<[], [bigint], "view">;
 
   initialPricePerToken: TypedContractMethod<[], [bigint], "view">;
+
+  isClosed: TypedContractMethod<[], [boolean], "view">;
 
   maxTotalSupply: TypedContractMethod<[], [bigint], "view">;
 
@@ -331,6 +358,9 @@ export interface BondingCurveBasic extends BaseContract {
   ): T;
 
   getFunction(
+    nameOrSignature: "MAX_POOL_BALANCE"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "buy"
   ): TypedContractMethod<[_destination: AddressLike], [void], "payable">;
   getFunction(
@@ -355,11 +385,17 @@ export interface BondingCurveBasic extends BaseContract {
     nameOrSignature: "getCurrencyTotalSupply"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
+    nameOrSignature: "getIsClosed"
+  ): TypedContractMethod<[], [boolean], "view">;
+  getFunction(
     nameOrSignature: "getOwnCurrencyBalance"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "initialPricePerToken"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "isClosed"
+  ): TypedContractMethod<[], [boolean], "view">;
   getFunction(
     nameOrSignature: "maxTotalSupply"
   ): TypedContractMethod<[], [bigint], "view">;

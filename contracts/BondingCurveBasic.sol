@@ -13,6 +13,9 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
     uint256 public immutable maxTotalSupply;
     uint256 public constant curveExponent = 2;
     uint256 public constant initialPricePerToken = 1e3;
+    uint256 public constant MAX_POOL_BALANCE = 10 ether;
+
+    bool public isClosed = false;
     
     // For debugging
     event ToPurchaseAmount(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
@@ -25,16 +28,13 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
     }
 
     function buy(address _destination) external payable {
+        require(isClosed == false, "buying and selling is closed");
         uint256 deposit = msg.value; 
         require(deposit > 0, "Empty deposit");
         require(getCurrencyTotalSupply() < maxTotalSupply, "All tokenes are already purchased");  // TODO: use modifiers?
 
         uint256 mintAmount = calculateBuyPrice(deposit);
         emit ToPurchaseAmount(msg.sender, deposit, mintAmount);
-
-        if (getCurrencyTotalSupply() + mintAmount > maxTotalSupply) {
-            // TODO: handle this case, buy proportionally
-        }
 
         mintCurrencyInternal(mintAmount);
         emit SuccessfulyMinted(msg.sender, deposit, mintAmount);
@@ -58,9 +58,16 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
             purchasedTokens, // tokens
             "" // callData
         );
+        emit DidSendAsyncCall(msg.sender, deposit, mintAmount);
+
+        if (poolBalance > MAX_POOL_BALANCE) {
+            // TODO: move to DEX
+            isClosed = true;
+        }
     }
 
     function sell(uint256 _amount, address _destination) external payable {
+        require(isClosed == false, "buying and selling is closed");
         require(getCurrencyBalanceOf(msg.sender) >= _amount, "Insufficient balance");
         uint256 reimbursement = calculateSellPrice(_amount);
 
@@ -77,6 +84,10 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
             reimbursement,  // value
             ""  // callData
         );
+    }
+
+    function getIsClosed() public view returns (bool) {
+        return isClosed;
     }
 
     // TODO: tune formulas
