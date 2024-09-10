@@ -25,8 +25,13 @@ contract BondingCurveBasic is NilCurrencyBase {
         setCurrencyNameInternal(_tokenName);
     }
 
-    function buy(address _destination) external payable {
-        require(isCurveClosed == false, "buying and selling is closed");
+    modifier currentlyOpen() {
+        require(isCurveClosed == false, "Buying and selling is closed");
+        _;
+    }
+
+    function buy(address _destination) currentlyOpen() external payable 
+    {
         require(msg.value > 0, "Empty deposit");
         require(getCurrencyTotalSupply() < maxTotalSupply, "All tokenes are already purchased");
 
@@ -65,8 +70,7 @@ contract BondingCurveBasic is NilCurrencyBase {
         }
     }
 
-    function sell(uint256 _amount, address _destination) external payable {
-        require(isCurveClosed == false, "buying and selling is closed");
+    function sell(uint256 _amount, address _destination) currentlyOpen() external payable {
         require(getCurrencyBalanceOf(msg.sender) >= _amount, "Insufficient balance");
 
         uint256 currentTokenSupply = getCurrencyTotalSupply();
