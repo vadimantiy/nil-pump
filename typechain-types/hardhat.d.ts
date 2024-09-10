@@ -18,6 +18,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.BondingCurveBasic__factory>;
     getContractFactory(
+      name: "IBondingCurve",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBondingCurve__factory>;
+    getContractFactory(
+      name: "ICurve",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ICurve__factory>;
+    getContractFactory(
       name: "__Precompile__",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.__Precompile____factory>;
@@ -48,6 +56,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.BondingCurveBasic>;
     getContractAt(
+      name: "IBondingCurve",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IBondingCurve>;
+    getContractAt(
+      name: "ICurve",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ICurve>;
+    getContractAt(
       name: "__Precompile__",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -82,6 +100,14 @@ declare module "hardhat/types/runtime" {
       name: "BondingCurveBasic",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.BondingCurveBasic>;
+    deployContract(
+      name: "IBondingCurve",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IBondingCurve>;
+    deployContract(
+      name: "ICurve",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ICurve>;
     deployContract(
       name: "__Precompile__",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -112,6 +138,16 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.BondingCurveBasic>;
+    deployContract(
+      name: "IBondingCurve",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IBondingCurve>;
+    deployContract(
+      name: "ICurve",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ICurve>;
     deployContract(
       name: "__Precompile__",
       args: any[],

@@ -4,9 +4,7 @@ pragma solidity ^0.8.19;
 import "./nil/Nil.sol";
 import "./nil/NilCurrencyBase.sol";
 
-// TODO: use SafeMath
-
-contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for handle different type of curves
+contract BondingCurveBasic is NilCurrencyBase {
     using Nil for address;
 
     uint256 public poolBalance;
@@ -15,7 +13,7 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
     uint256 public constant initialPricePerToken = 1e3;
     uint256 public constant MAX_POOL_BALANCE = 10 ether;
 
-    bool public isClosed = false;
+    bool public isCurveClosed = false;
     
     // For debugging
     event ToPurchaseAmount(address indexed sender, uint256 indexed deposit, uint256 indexed amount);
@@ -28,19 +26,20 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
     }
 
     function buy(address _destination) external payable {
-        require(isClosed == false, "buying and selling is closed");
-        uint256 deposit = msg.value; 
-        require(deposit > 0, "Empty deposit");
-        require(getCurrencyTotalSupply() < maxTotalSupply, "All tokenes are already purchased");  // TODO: use modifiers?
+        require(isCurveClosed == false, "buying and selling is closed");
+        require(msg.value > 0, "Empty deposit");
+        require(getCurrencyTotalSupply() < maxTotalSupply, "All tokenes are already purchased");
 
-        uint256 mintAmount = calculateBuyPrice(deposit);
+        uint256 deposit = msg.value; 
+        uint256 currentTokenSupply = getCurrencyTotalSupply();
+        uint256 mintAmount = calculateBuyAmount(currentTokenSupply, deposit);
         emit ToPurchaseAmount(msg.sender, deposit, mintAmount);
 
         mintCurrencyInternal(mintAmount);
         emit SuccessfulyMinted(msg.sender, deposit, mintAmount);
 
         poolBalance += deposit;
-
+        
         Nil.Token[] memory purchasedTokens = new Nil.Token[](1);
         purchasedTokens[0] = Nil.Token({
             id: uint256(uint160(address(this))),
@@ -62,14 +61,16 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
 
         if (poolBalance > MAX_POOL_BALANCE) {
             // TODO: move to DEX
-            isClosed = true;
+            isCurveClosed = true;
         }
     }
 
     function sell(uint256 _amount, address _destination) external payable {
-        require(isClosed == false, "buying and selling is closed");
+        require(isCurveClosed == false, "buying and selling is closed");
         require(getCurrencyBalanceOf(msg.sender) >= _amount, "Insufficient balance");
-        uint256 reimbursement = calculateSellPrice(_amount);
+
+        uint256 currentTokenSupply = getCurrencyTotalSupply();
+        uint256 reimbursement = calculateSellPrice(currentTokenSupply, _amount);
 
         burnCurrencyInternal(reimbursement);
         poolBalance -= reimbursement;
@@ -86,29 +87,26 @@ contract BondingCurveBasic is NilCurrencyBase {  // TODO: make interface for han
         );
     }
 
-    function getIsClosed() public view returns (bool) {
-        return isClosed;
+    function getIsCurveClosed() public view returns (bool) {
+        return isCurveClosed;
     }
 
     // TODO: tune formulas
     // Exponential curve for buying tokens: P(x) = k * x^e
     // Where x is totalSupply, e is the curve exponent, and k is a multiplier for scaling the curve.
-    function calculateBuyPrice(uint256 ethAmount) public view returns (uint256) {
-        uint256 tokenSupply = getCurrencyTotalSupply();
-
-        if (tokenSupply == 0) {
+    function calculateBuyAmount(uint256 currentTokenSupply, uint256 ethAmount) public pure returns (uint256) {
+        if (currentTokenSupply == 0) {
             // Price for the first tokens
             return ethAmount / initialPricePerToken;
         }
         // P(x) = k * x^e => tokens = ETH / (k * (currentSupply ^ e))
-        return ethAmount / (tokenSupply ** curveExponent);
+        return ethAmount / (currentTokenSupply ** curveExponent);
     }
 
     // Exponential curve for selling tokens: Similar logic for selling based on the supply and reserve.
-    function calculateSellPrice(uint256 tokenAmount) public view returns (uint256) {
-        uint256 tokenSupply = getCurrencyTotalSupply();
+    function calculateSellPrice(uint256 currentTokenSupply, uint256 tokenAmount) public view returns (uint256) {
         // P(x) = k * x^e => ETH = tokens * (k * (currentSupply ^ e))
-        return (tokenAmount * poolBalance) / (tokenSupply ** curveExponent);
+        return (tokenAmount * poolBalance) / (currentTokenSupply ** curveExponent);
     }
 
     function burnCurrencyInternal(uint256 amount) internal {
