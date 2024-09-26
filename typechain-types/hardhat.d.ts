@@ -14,10 +14,6 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
-      name: "BondingCurveBasic",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BondingCurveBasic__factory>;
-    getContractFactory(
       name: "__Precompile__",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.__Precompile____factory>;
@@ -38,15 +34,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NilCurrencyBase__factory>;
     getContractFactory(
-      name: "Wallet",
+      name: "BondingCurveBasic",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Wallet__factory>;
+    ): Promise<Contracts.BondingCurveBasic__factory>;
 
-    getContractAt(
-      name: "BondingCurveBasic",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.BondingCurveBasic>;
     getContractAt(
       name: "__Precompile__",
       address: string | ethers.Addressable,
@@ -73,15 +64,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.NilCurrencyBase>;
     getContractAt(
-      name: "Wallet",
+      name: "BondingCurveBasic",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
-    ): Promise<Contracts.Wallet>;
-
-    deployContract(
-      name: "BondingCurveBasic",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.BondingCurveBasic>;
+
     deployContract(
       name: "__Precompile__",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -103,15 +90,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.NilCurrencyBase>;
     deployContract(
-      name: "Wallet",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Wallet>;
-
-    deployContract(
       name: "BondingCurveBasic",
-      args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.BondingCurveBasic>;
+
     deployContract(
       name: "__Precompile__",
       args: any[],
@@ -138,10 +120,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.NilCurrencyBase>;
     deployContract(
-      name: "Wallet",
+      name: "BondingCurveBasic",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Wallet>;
+    ): Promise<Contracts.BondingCurveBasic>;
 
     // default types
     getContractFactory(

@@ -35,7 +35,7 @@ const wallet = new WalletV1({
   pubkey: pubkey,
   client,
   signer,
-  address: "0x0001be097bfce61e9990b8983ccc9100cd4e62ad"
+  address: "0x0001bce0eda86c0dde1a91533c1372085da85cc5"
 });
 
 const walletAddress = wallet.getAddressHex();

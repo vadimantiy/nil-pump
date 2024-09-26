@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.19;
 
-import "./nil/Nil.sol";
-import "./nil/NilCurrencyBase.sol";
+import "@nilfoundation/smart-contracts/contracts/Nil.sol";
+import "@nilfoundation/smart-contracts/contracts/NilCurrencyBase.sol";
 
 contract BondingCurveBasic is NilCurrencyBase {
     using Nil for address;
@@ -22,7 +22,7 @@ contract BondingCurveBasic is NilCurrencyBase {
 
     constructor(string memory _tokenName, uint _maxTotalSupply) {
         maxTotalSupply = _maxTotalSupply;
-        setCurrencyNameInternal(_tokenName);
+        // setCurrencyName(_tokenName);
     }
 
     modifier currentlyOpen() {
@@ -111,10 +111,6 @@ contract BondingCurveBasic is NilCurrencyBase {
     function calculateSellPrice(uint256 currentTokenSupply, uint256 tokenAmount) public view returns (uint256) {
         // P(x) = k * x^e => ETH = tokens * (k * (currentSupply ^ e))
         return (tokenAmount * poolBalance) / (currentTokenSupply ** curveExponent);
-    }
-
-    function burnCurrencyInternal(uint256 amount) internal {
-        // TODO: should be implemented in NilCurrencyBase later
     }
 
 }

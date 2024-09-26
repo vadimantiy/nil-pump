@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/vadimantiy/Developer/nil-pump/contracts/BondingCurveBasic.sol": {
-      "lastModificationDate": 1725982433285,
-      "contentHash": "32495e8ac5aa903a8c1753ac616095c5",
+      "lastModificationDate": 1727349031600,
+      "contentHash": "3cba398623ac7c0da7d223ef0b7559a7",
       "sourceName": "contracts/BondingCurveBasic.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -30,8 +30,8 @@
         }
       },
       "imports": [
-        "./nil/Nil.sol",
-        "./nil/NilCurrencyBase.sol"
+        "@nilfoundation/smart-contracts/contracts/Nil.sol",
+        "@nilfoundation/smart-contracts/contracts/NilCurrencyBase.sol"
       ],
       "versionPragmas": [
         "^0.8.19"
@@ -40,48 +40,10 @@
         "BondingCurveBasic"
       ]
     },
-    "/Users/vadimantiy/Developer/nil-pump/contracts/nil/NilCurrencyBase.sol": {
-      "lastModificationDate": 1725531513647,
-      "contentHash": "be4a521f1e206dd2318044059462eede",
-      "sourceName": "contracts/nil/NilCurrencyBase.sol",
-      "solcConfig": {
-        "version": "0.8.24",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./Nil.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "NilCurrencyBase"
-      ]
-    },
-    "/Users/vadimantiy/Developer/nil-pump/contracts/nil/Nil.sol": {
-      "lastModificationDate": 1725512955218,
-      "contentHash": "123fcf55b2e64e0ed8d748c437768ee1",
-      "sourceName": "contracts/nil/Nil.sol",
+    "/Users/vadimantiy/Developer/nil-pump/node_modules/@nilfoundation/smart-contracts/contracts/Nil.sol": {
+      "lastModificationDate": 1726829911548,
+      "contentHash": "5ee98f51a4579214b1913f06b2f2bc3b",
+      "sourceName": "@nilfoundation/smart-contracts/contracts/Nil.sol",
       "solcConfig": {
         "version": "0.8.24",
         "settings": {
@@ -118,10 +80,10 @@
         "__Precompile__"
       ]
     },
-    "/Users/vadimantiy/Developer/nil-pump/contracts/nil/Wallet.sol": {
-      "lastModificationDate": 1725531407270,
-      "contentHash": "eb616102c491b7882773087dcb868def",
-      "sourceName": "contracts/nil/Wallet.sol",
+    "/Users/vadimantiy/Developer/nil-pump/node_modules/@nilfoundation/smart-contracts/contracts/NilCurrencyBase.sol": {
+      "lastModificationDate": 1726830513471,
+      "contentHash": "fde5b3afc5bacb47869d6500d438c7d6",
+      "sourceName": "@nilfoundation/smart-contracts/contracts/NilCurrencyBase.sol",
       "solcConfig": {
         "version": "0.8.24",
         "settings": {
@@ -147,13 +109,13 @@
         }
       },
       "imports": [
-        "./NilCurrencyBase.sol"
+        "./Nil.sol"
       ],
       "versionPragmas": [
-        "^0.8.9"
+        "^0.8.0"
       ],
       "artifacts": [
-        "Wallet"
+        "NilCurrencyBase"
       ]
     }
   }
