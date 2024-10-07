@@ -18,7 +18,7 @@ const deployedAddresses = require("../ignition/deployments/chain-0/deployed_addr
 const client = new PublicClient({
   transport: new HttpTransport({
     endpoint:
-      "",
+      "https://api.devnet.nil.foundation/api/vadim/9l43czwds1cyih8v49rk5j8cxy56qxz4",
   }),
   shardId: 1,
 });
@@ -26,7 +26,7 @@ const client = new PublicClient({
 const faucet = new Faucet(client);
 
 const signer = new LocalECDSAKeySigner({
-  privateKey:"0xfd1ce31f87781c4d558641d0fd75c5ff4356841ea4a2a57b1cb2649d76cd069e",
+  privateKey:"0x427e79d7407699897fe0c7bfccb2b5242272c66a61e03c138634b7b5777164c0",
 });
 
 const pubkey = await signer.getPublicKey();
@@ -35,7 +35,7 @@ const wallet = new WalletV1({
   pubkey: pubkey,
   client,
   signer,
-  address: "0x0001bce0eda86c0dde1a91533c1372085da85cc5"
+  address: "0x00012616767c73916336150f250c51fdfd39d263"
 });
 
 const walletAddress = wallet.getAddressHex();

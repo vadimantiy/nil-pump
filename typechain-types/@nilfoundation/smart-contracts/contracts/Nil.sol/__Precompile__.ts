@@ -60,7 +60,7 @@ export interface __Precompile__Interface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "precompileAwaitCall",
-    values: [AddressLike, BytesLike]
+    values: [AddressLike, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "precompileConfigParam",
@@ -88,7 +88,7 @@ export interface __Precompile__Interface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "precompileSendRequest",
-    values: [AddressLike, Nil.TokenStruct[], BytesLike, BytesLike]
+    values: [AddressLike, Nil.TokenStruct[], BigNumberish, BytesLike, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "precompileSendTokens",
@@ -196,7 +196,7 @@ export interface __Precompile__ extends BaseContract {
   >;
 
   precompileAwaitCall: TypedContractMethod<
-    [arg0: AddressLike, arg1: BytesLike],
+    [arg0: AddressLike, arg1: BigNumberish, arg2: BytesLike],
     [[string, boolean]],
     "payable"
   >;
@@ -241,8 +241,9 @@ export interface __Precompile__ extends BaseContract {
     [
       arg0: AddressLike,
       arg1: Nil.TokenStruct[],
-      arg2: BytesLike,
-      arg3: BytesLike
+      arg2: BigNumberish,
+      arg3: BytesLike,
+      arg4: BytesLike
     ],
     [boolean],
     "payable"
@@ -277,7 +278,7 @@ export interface __Precompile__ extends BaseContract {
   getFunction(
     nameOrSignature: "precompileAwaitCall"
   ): TypedContractMethod<
-    [arg0: AddressLike, arg1: BytesLike],
+    [arg0: AddressLike, arg1: BigNumberish, arg2: BytesLike],
     [[string, boolean]],
     "payable"
   >;
@@ -317,8 +318,9 @@ export interface __Precompile__ extends BaseContract {
     [
       arg0: AddressLike,
       arg1: Nil.TokenStruct[],
-      arg2: BytesLike,
-      arg3: BytesLike
+      arg2: BigNumberish,
+      arg3: BytesLike,
+      arg4: BytesLike
     ],
     [boolean],
     "payable"

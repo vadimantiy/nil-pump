@@ -22,6 +22,7 @@ import type {
 export interface NilInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "ASYNC_REQUEST_MIN_GAS"
       | "FORWARD_NONE"
       | "FORWARD_PERCENTAGE"
       | "FORWARD_REMAINING"
@@ -31,6 +32,10 @@ export interface NilInterface extends Interface {
       | "VERIFY_SIGNATURE"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "ASYNC_REQUEST_MIN_GAS",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "FORWARD_NONE",
     values?: undefined
@@ -60,6 +65,10 @@ export interface NilInterface extends Interface {
     values?: undefined
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "ASYNC_REQUEST_MIN_GAS",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "FORWARD_NONE",
     data: BytesLike
@@ -133,6 +142,8 @@ export interface Nil extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  ASYNC_REQUEST_MIN_GAS: TypedContractMethod<[], [bigint], "view">;
+
   FORWARD_NONE: TypedContractMethod<[], [bigint], "view">;
 
   FORWARD_PERCENTAGE: TypedContractMethod<[], [bigint], "view">;
@@ -151,6 +162,9 @@ export interface Nil extends BaseContract {
     key: string | FunctionFragment
   ): T;
 
+  getFunction(
+    nameOrSignature: "ASYNC_REQUEST_MIN_GAS"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "FORWARD_NONE"
   ): TypedContractMethod<[], [bigint], "view">;

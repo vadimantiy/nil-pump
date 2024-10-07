@@ -51,10 +51,10 @@ contract BondingCurveBasic is NilCurrencyBase {
             amount: mintAmount
         });
 
-        Nil.asyncCall(  // TODO: think of exact correct parameters
+        Nil.asyncCallWithTokens(  // TODO: think of exact correct parameters
             _destination,  // dst
             address(this),  // refundTo
-            address(msg.sender),  // bounceTo
+            address(msg.sender),  // bounceTo 
             100000,  // feeCredit
             Nil.FORWARD_REMAINING,  // forwardKind
             false,  // deploy
