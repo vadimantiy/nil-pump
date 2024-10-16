@@ -126,7 +126,7 @@ export interface BondingCurveBasicInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "sendCurrency",
-    values: [AddressLike, BigNumberish, BigNumberish]
+    values: [AddressLike, AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setCurrencyName",
@@ -336,7 +336,7 @@ export interface BondingCurveBasic extends BaseContract {
     "view"
   >;
 
-  getCurrencyId: TypedContractMethod<[], [bigint], "view">;
+  getCurrencyId: TypedContractMethod<[], [string], "view">;
 
   getCurrencyName: TypedContractMethod<[], [string], "view">;
 
@@ -367,7 +367,7 @@ export interface BondingCurveBasic extends BaseContract {
   >;
 
   sendCurrency: TypedContractMethod<
-    [to: AddressLike, currencyId: BigNumberish, amount: BigNumberish],
+    [to: AddressLike, currencyId: AddressLike, amount: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -409,7 +409,7 @@ export interface BondingCurveBasic extends BaseContract {
   ): TypedContractMethod<[account: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "getCurrencyId"
-  ): TypedContractMethod<[], [bigint], "view">;
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "getCurrencyName"
   ): TypedContractMethod<[], [string], "view">;
@@ -447,7 +447,7 @@ export interface BondingCurveBasic extends BaseContract {
   getFunction(
     nameOrSignature: "sendCurrency"
   ): TypedContractMethod<
-    [to: AddressLike, currencyId: BigNumberish, amount: BigNumberish],
+    [to: AddressLike, currencyId: AddressLike, amount: BigNumberish],
     [void],
     "nonpayable"
   >;

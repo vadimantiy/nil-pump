@@ -22,10 +22,10 @@ import type {
 } from "../../../../common";
 
 export declare namespace Nil {
-  export type TokenStruct = { id: BigNumberish; amount: BigNumberish };
+  export type TokenStruct = { id: AddressLike; amount: BigNumberish };
 
-  export type TokenStructOutput = [id: bigint, amount: bigint] & {
-    id: bigint;
+  export type TokenStructOutput = [id: string, amount: bigint] & {
+    id: string;
     amount: bigint;
   };
 }
@@ -68,7 +68,7 @@ export interface __Precompile__Interface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "precompileGetCurrencyBalance",
-    values: [BigNumberish, AddressLike]
+    values: [AddressLike, AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "precompileGetGasPrice",
@@ -208,7 +208,7 @@ export interface __Precompile__ extends BaseContract {
   >;
 
   precompileGetCurrencyBalance: TypedContractMethod<
-    [id: BigNumberish, addr: AddressLike],
+    [id: AddressLike, addr: AddressLike],
     [bigint],
     "view"
   >;
@@ -292,7 +292,7 @@ export interface __Precompile__ extends BaseContract {
   getFunction(
     nameOrSignature: "precompileGetCurrencyBalance"
   ): TypedContractMethod<
-    [id: BigNumberish, addr: AddressLike],
+    [id: AddressLike, addr: AddressLike],
     [bigint],
     "view"
   >;

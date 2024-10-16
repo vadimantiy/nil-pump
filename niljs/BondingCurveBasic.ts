@@ -26,7 +26,7 @@ const client = new PublicClient({
 const faucet = new Faucet(client);
 
 const signer = new LocalECDSAKeySigner({
-  privateKey:"0x427e79d7407699897fe0c7bfccb2b5242272c66a61e03c138634b7b5777164c0",
+  privateKey: process.env.PRIVATE_KEY as `0x${string}`,
 });
 
 const pubkey = await signer.getPublicKey();
@@ -35,7 +35,7 @@ const wallet = new WalletV1({
   pubkey: pubkey,
   client,
   signer,
-  address: "0x00012616767c73916336150f250c51fdfd39d263"
+  address: process.env.WALLET_ADDR as `0x${string}`
 });
 
 const walletAddress = wallet.getAddressHex();

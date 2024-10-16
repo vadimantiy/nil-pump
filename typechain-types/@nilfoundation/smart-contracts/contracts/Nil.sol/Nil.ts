@@ -28,6 +28,7 @@ export interface NilInterface extends Interface {
       | "FORWARD_REMAINING"
       | "FORWARD_VALUE"
       | "IS_INTERNAL_MESSAGE"
+      | "IS_RESPONSE_MESSAGE"
       | "MANAGE_CURRENCY"
       | "VERIFY_SIGNATURE"
   ): FunctionFragment;
@@ -54,6 +55,10 @@ export interface NilInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "IS_INTERNAL_MESSAGE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "IS_RESPONSE_MESSAGE",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -87,6 +92,10 @@ export interface NilInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "IS_INTERNAL_MESSAGE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "IS_RESPONSE_MESSAGE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -154,6 +163,8 @@ export interface Nil extends BaseContract {
 
   IS_INTERNAL_MESSAGE: TypedContractMethod<[], [string], "view">;
 
+  IS_RESPONSE_MESSAGE: TypedContractMethod<[], [string], "view">;
+
   MANAGE_CURRENCY: TypedContractMethod<[], [string], "view">;
 
   VERIFY_SIGNATURE: TypedContractMethod<[], [string], "view">;
@@ -179,6 +190,9 @@ export interface Nil extends BaseContract {
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "IS_INTERNAL_MESSAGE"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "IS_RESPONSE_MESSAGE"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "MANAGE_CURRENCY"

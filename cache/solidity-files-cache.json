@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/vadimantiy/Developer/nil-pump/contracts/BondingCurveBasic.sol": {
-      "lastModificationDate": 1728302521595,
-      "contentHash": "27926414bea5305a0b7d321be59b0ec8",
+      "lastModificationDate": 1729057297168,
+      "contentHash": "32b66d4259ded60c52c70f2ed804a811",
       "sourceName": "contracts/BondingCurveBasic.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -41,8 +41,8 @@
       ]
     },
     "/Users/vadimantiy/Developer/nil-pump/node_modules/@nilfoundation/smart-contracts/contracts/Nil.sol": {
-      "lastModificationDate": 1728302514957,
-      "contentHash": "25201999bcab82aea18ea7fbf2299ec7",
+      "lastModificationDate": 1729056932857,
+      "contentHash": "67fb058d043cabd5675cac527675ca88",
       "sourceName": "@nilfoundation/smart-contracts/contracts/Nil.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -81,8 +81,8 @@
       ]
     },
     "/Users/vadimantiy/Developer/nil-pump/node_modules/@nilfoundation/smart-contracts/contracts/NilCurrencyBase.sol": {
-      "lastModificationDate": 1728302071545,
-      "contentHash": "62a5d538ad06ff9104db22a17346e69c",
+      "lastModificationDate": 1729056932857,
+      "contentHash": "1e096eec8a0d617c30f3f4816f1337ac",
       "sourceName": "@nilfoundation/smart-contracts/contracts/NilCurrencyBase.sol",
       "solcConfig": {
         "version": "0.8.24",

@@ -46,9 +46,9 @@ const _abi = [
     name: "getCurrencyId",
     outputs: [
       {
-        internalType: "uint256",
+        internalType: "CurrencyId",
         name: "",
-        type: "uint256",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -114,9 +114,9 @@ const _abi = [
         type: "address",
       },
       {
-        internalType: "uint256",
+        internalType: "CurrencyId",
         name: "currencyId",
-        type: "uint256",
+        type: "address",
       },
       {
         internalType: "uint256",

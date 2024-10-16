@@ -47,7 +47,7 @@ contract BondingCurveBasic is NilCurrencyBase {
         
         Nil.Token[] memory purchasedTokens = new Nil.Token[](1);
         purchasedTokens[0] = Nil.Token({
-            id: uint256(uint160(address(this))),
+            id: CurrencyId.wrap(address(this)),
             amount: mintAmount
         });
 
