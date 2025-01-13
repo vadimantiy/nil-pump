@@ -2,7 +2,7 @@ import { defineChain } from '../../utils/chain/defineChain.js'
 
 export const flowTestnet = /*#__PURE__*/ defineChain({
   id: 545,
-  name: 'FlowEVM Testnet',
+  name: 'Flow EVM Testnet',
   nativeCurrency: {
     decimals: 18,
     name: 'Flow',
@@ -16,7 +16,7 @@ export const flowTestnet = /*#__PURE__*/ defineChain({
   blockExplorers: {
     default: {
       name: 'Flow Diver',
-      url: 'https://testnet.flowdiver.io',
+      url: 'https://evm-testnet.flowscan.io',
     },
   },
   contracts: {
@@ -25,4 +25,5 @@ export const flowTestnet = /*#__PURE__*/ defineChain({
       blockCreated: 137518,
     },
   },
+  testnet: true,
 })

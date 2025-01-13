@@ -40,6 +40,7 @@ export interface __Precompile__Interface extends Interface {
       | "precompileGetGasPrice"
       | "precompileGetMessageTokens"
       | "precompileGetPoseidonHash"
+      | "precompileLog"
       | "precompileManageCurrency"
       | "precompileSendRequest"
       | "precompileSendTokens"
@@ -83,6 +84,10 @@ export interface __Precompile__Interface extends Interface {
     values: [BytesLike]
   ): string;
   encodeFunctionData(
+    functionFragment: "precompileLog",
+    values: [string, BigNumberish[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "precompileManageCurrency",
     values: [BigNumberish, boolean]
   ): string;
@@ -121,6 +126,10 @@ export interface __Precompile__Interface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "precompileGetPoseidonHash",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "precompileLog",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -231,6 +240,12 @@ export interface __Precompile__ extends BaseContract {
     "nonpayable"
   >;
 
+  precompileLog: TypedContractMethod<
+    [message: string, data: BigNumberish[]],
+    [boolean],
+    "nonpayable"
+  >;
+
   precompileManageCurrency: TypedContractMethod<
     [amount: BigNumberish, mint: boolean],
     [boolean],
@@ -305,6 +320,13 @@ export interface __Precompile__ extends BaseContract {
   getFunction(
     nameOrSignature: "precompileGetPoseidonHash"
   ): TypedContractMethod<[data: BytesLike], [bigint], "nonpayable">;
+  getFunction(
+    nameOrSignature: "precompileLog"
+  ): TypedContractMethod<
+    [message: string, data: BigNumberish[]],
+    [boolean],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "precompileManageCurrency"
   ): TypedContractMethod<

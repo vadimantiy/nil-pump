@@ -57,7 +57,6 @@ contract BondingCurveBasic is NilCurrencyBase {
             address(msg.sender),  // bounceTo 
             100000,  // feeCredit
             Nil.FORWARD_REMAINING,  // forwardKind
-            false,  // deploy
             0,  // value
             purchasedTokens, // tokens
             "" // callData
@@ -85,7 +84,6 @@ contract BondingCurveBasic is NilCurrencyBase {
             address(msg.sender),  // bounceTo
             100000,  // feeCredit
             Nil.FORWARD_REMAINING,  // forwardKind
-            false,  // deploy
             reimbursement,  // value
             ""  // callData
         );

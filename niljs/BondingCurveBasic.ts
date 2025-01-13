@@ -38,7 +38,7 @@ const wallet = new WalletV1({
   address: process.env.WALLET_ADDR as `0x${string}`
 });
 
-const walletAddress = wallet.getAddressHex();
+const walletAddress = wallet.address;
 console.log("Wallet Address:", walletAddress);
 const contractAddress = deployedAddresses["BondingCurveModule#BondingCurveBasic"];
 console.log("Contract address = ", contractAddress);
@@ -54,5 +54,5 @@ const sendingPurchase = await wallet.sendMessage({
   feeCredit: 5_000_000n,
 });
 
-waitTillCompleted(client, 1, sendingPurchase);
+waitTillCompleted(client, sendingPurchase);
 console.log("Message Hash for Purchase:", sendingPurchase);

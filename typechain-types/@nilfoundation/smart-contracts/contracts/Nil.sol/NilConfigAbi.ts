@@ -38,11 +38,15 @@ export declare namespace Nil {
     list: Nil.ValidatorInfoStructOutput[]
   ] & { list: Nil.ValidatorInfoStructOutput[] };
 
-  export type ParamGasPriceStruct = { gasPriceScale: BigNumberish };
-
-  export type ParamGasPriceStructOutput = [gasPriceScale: bigint] & {
-    gasPriceScale: bigint;
+  export type ParamGasPriceStruct = {
+    gasPriceScale: BigNumberish;
+    shards: BigNumberish[];
   };
+
+  export type ParamGasPriceStructOutput = [
+    gasPriceScale: bigint,
+    shards: bigint[]
+  ] & { gasPriceScale: bigint; shards: bigint[] };
 }
 
 export interface NilConfigAbiInterface extends Interface {
